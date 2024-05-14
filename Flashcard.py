@@ -1,7 +1,15 @@
 import json
 import io
+import argparse
+
 
 log_buffer = io.StringIO()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--import_from", help="Import flashcards from file")
+parser.add_argument("--export_to", help="Export flashcards to file")
+args = parser.parse_args()
 
 
 def log_input():
@@ -137,12 +145,38 @@ def make_log(log_data):
         log_file.write(log_data.getvalue())
 
 
+def export_database(filename, database, error_database):
+    combined_data = {"database": database, "error_database": error_database}
+    with open(filename, 'w') as new_data:
+        json.dump(combined_data, new_data)
+        log_print(f'{len(database)} cards have been saved')
+
+
+def import_file(filename,database, error_database):
+    try:
+        with open(filename, 'r') as new_data:
+            downloaded_data = json.load(new_data)
+            downloaded_database = downloaded_data.get('database', {})
+            downloaded_error_database = downloaded_data.get('error_database', {})
+            database.update(downloaded_database)
+            error_database.update(downloaded_error_database)
+            log_print(f'{len(downloaded_database)} cards have been loaded')
+            return database
+    except FileNotFoundError:
+        log_print('File not found')
+
+
 database = {}
 error_database = {}
+
+if args.import_from:
+    import_file(args.import_from, database, error_database)
 
 while True:
     log_print('Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):')
     action = log_input()
+    if args.export_to:
+        export_database(args.export_to, database, error_database)
     if action == 'add':
         add_cart(database)
     elif action == 'remove':
