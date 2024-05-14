@@ -152,7 +152,7 @@ while True:
     elif action == 'ask':
         ask_question(database, error_database)
     elif action == 'exit':
-        print('Bye bye!')
+        log_print('Bye bye!')
         break
     elif action == 'log':
         make_log(log_buffer)
@@ -160,4 +160,4 @@ while True:
         hardest_card(error_database)
     elif action == 'reset stats':
         error_database.clear()
-        print('Card statistics have been reset')
+        log_print('Card statistics have been reset')
