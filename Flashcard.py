@@ -129,9 +129,10 @@ def hardest_card(error_database):
 def make_log(log_data):
     log_print('File name:')
     filename = log_input()
+    log_print('The log has been saved.')
     with open(filename, 'w') as log_file:
         log_file.write(log_data.getvalue())
-    log_print('The log has been saved.')
+    
 
 
 database = {}
