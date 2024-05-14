@@ -9,6 +9,7 @@ def log_input():
     log_buffer.write(user_input + '\n')
     return user_input
 
+
 def log_print(message):
     print(message)
     log_buffer.write(message + '\n')
@@ -38,7 +39,8 @@ def answer_error(database, answer, test_reply):
     if test_reply in database.values():
         for wrong_question, wrong_answer in database.items():
             if test_reply == wrong_answer:
-                log_print(f'Wrong. The right answer is "{answer}", but your definition is correct for "{wrong_question}".')
+                log_print(
+                    f'Wrong. The right answer is "{answer}", but your definition is correct for "{wrong_question}".')
     else:
         log_print(f'Wrong. The right answer is "{answer}".')
 
@@ -77,7 +79,7 @@ def import_database(database):
             log_print(f'{cards_number} cards have been loaded')
             return database
     except FileNotFoundError:
-        print('File not found')
+        log_print('File not found')
 
 
 def write_file(database):
@@ -161,4 +163,3 @@ while True:
     elif action == 'reset stats':
         error_database.clear()
         log_print('Card statistics have been reset')
-        
