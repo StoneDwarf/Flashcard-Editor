@@ -12,7 +12,7 @@ def log_input():
 def log_print(message):
     print(message)
     log_buffer.write(message + '\n')
-    
+
 
 def term_error(database):
     term = log_input()
@@ -92,9 +92,10 @@ def write_file(database):
 def ask_question(database, error_database):
     log_print('How many times to ask?')
     cards_nbr = log_input()
-    for _ in range(int(cards_nbr)):
+    n_card_nbr = int(cards_nbr)
+    for _ in range(n_card_nbr):
         for question, answer in database.items():
-            if int(cards_nbr) > 0:
+            if n_card_nbr > 0:
                 log_print(f'Print the definition of "{question}":')
                 test_reply = log_input()
                 if test_reply == answer:
@@ -102,7 +103,7 @@ def ask_question(database, error_database):
                 else:
                     error_track(error_database, question)
                     answer_error(database, answer, test_reply)
-                cards_nbr -= 1
+                n_card_nbr -= 1
 
 
 def error_track(error_database, wrong_question):
@@ -132,12 +133,10 @@ def make_log(log_data):
     log_print('The log has been saved.')
     with open(filename, 'w') as log_file:
         log_file.write(log_data.getvalue())
-    
 
 
 database = {}
 error_database = {}
-
 
 while True:
     log_print('Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):')
@@ -162,3 +161,4 @@ while True:
     elif action == 'reset stats':
         error_database.clear()
         log_print('Card statistics have been reset')
+        
